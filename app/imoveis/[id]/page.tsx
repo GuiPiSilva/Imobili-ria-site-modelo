@@ -1,6 +1,10 @@
 import { notFound } from 'next/navigation';
 import { properties } from '@/lib/properties';
 import { PropertyDetail } from '@/components/property-detail';
+export const dynamicParams = false;
+export function generateStaticParams() {
+    return properties.map(({ id }) => ({ id }));
+}
 export async function generateMetadata({ params }: {
     params: Promise<{
         id: string;
