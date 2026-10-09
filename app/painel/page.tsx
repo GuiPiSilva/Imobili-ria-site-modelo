@@ -1,11 +1,13 @@
 import { redirect } from 'next/navigation';
 import { requireIdentity, getTenantChoices, requireTenant } from '@/lib/imob-access';
-import { db, eq, isMaster, type Listing, type Lead, type Visit, type Invoice, type Membership } from '@/lib/imob-db';
+import { db, eq, isMaster, isImobDatabaseConfigured, type Listing, type Lead, type Visit, type Invoice, type Membership } from '@/lib/imob-db';
 import { AdminWorkbench } from '@/components/admin-workbench';
+import { AdminSetupPending } from '@/components/admin-setup-pending';
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Painel imobiliário', robots: { index: false, follow: false } };
 export default async function Painel({searchParams}:{searchParams:Promise<{tenant?:string}>}) {
   const person = await requireIdentity();
+  if (!isImobDatabaseConfigured()) return <AdminSetupPending email={person.email} isMaster={isMaster(person.sub)} />;
   const tenants = await getTenantChoices(person.sub);
   if (!tenants.length) redirect(isMaster(person.sub)?'/master':'/sem-acesso');
   const q = await searchParams;

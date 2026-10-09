@@ -8,6 +8,12 @@ export type Lead = { id: string; tenant_id: string; name: string; email: string 
 export type Visit = { id: string; tenant_id: string; lead_id: string; scheduled_at: string; notes: string | null; status: string };
 export type Invoice = { id: string; tenant_id: string; title: string; amount: number; due_date: string; status: string; category: string };
 
+// Apenas no servidor. Quando o banco ainda não está provisionado,
+ // as telas administrativas exibem uma explicação em vez de quebrar.
+export function isImobDatabaseConfigured() {
+  return Boolean(process.env.SUPABASE_URL?.trim() && process.env.SUPABASE_SERVICE_ROLE_KEY?.trim());
+}
+
 function config() {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
