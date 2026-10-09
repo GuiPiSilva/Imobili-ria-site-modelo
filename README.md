@@ -4,7 +4,7 @@ Site de imobiliária em Next.js, React e TypeScript, preparado para Vercel.
 
 ## Executar localmente
 
-Requer Node.js 22.13 ou superior e pnpm 11.25.0.
+Requer Node.js 24.x e pnpm 11.25.0.
 
 ```sh
 corepack enable
@@ -28,7 +28,7 @@ pnpm start
 
 - Importe este repositório pela integração GitHub.
 - Framework: Next.js. Diretório raiz: a raiz do repositório.
-- Node.js: 22.x. Branch de produção: main.
+- Node.js: 24.x. Branch de produção: main.
 - Instalação: pnpm install --frozen-lockfile. Build: pnpm build.
 - Diretório de saída: padrão do Next.js. Não informe dist.
 - Nenhuma variável de ambiente é necessária nesta versão.
