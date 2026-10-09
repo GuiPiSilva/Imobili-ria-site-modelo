@@ -13,7 +13,7 @@ const property = z.object({
   deal_type: z.enum(['venda','locacao']), city: z.string().trim().min(2).max(100),
   neighborhood: z.string().trim().max(100).default(''), price: z.coerce.number().finite().min(0).max(10000000000),
   area_m2: z.coerce.number().finite().min(0).max(10000000),
-  image_url: z.union([z.string().url().refine(v => v.startsWith('https://')).max(1000), z.literal('')]).default(''),
+  image_url: z.union([z.string().url().max(1000).refine(v => v.startsWith('https://')), z.literal('')]).default(''),
   description: z.string().trim().max(6000).default(''), status: z.enum(['draft','published','archived']).default('draft')
 }).strict();
 const lead = z.object({
