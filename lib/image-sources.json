@@ -1,0 +1,111 @@
+[
+  {
+    "file": "house-hero.webp",
+    "input": "house-fornander.jpg",
+    "kind": "modern detached villa with pool; recommended hero",
+    "photographer": "John Fornander",
+    "source": "https://unsplash.com/photos/Id7u0EkTjBE",
+    "source_evidence": "Free Download link on https://unsplash.com/s/photos/modern-house; canonical page did not render in web tool",
+    "image_url": "https://images.unsplash.com/photo-1613977257363-707ba9348227?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=john-fornander-Id7u0EkTjBE-unsplash.jpg",
+    "license": "Unsplash License",
+    "license_url": "https://unsplash.com/license",
+    "local_path": "/workspace/scratch/property-assets/house-hero.webp",
+    "dimensions": [
+      1920,
+      1281
+    ],
+    "bytes": 162758,
+    "commercial_reuse": "Free for website use; attribution not required; standard platform restrictions apply.",
+    "demonstrative_only": true
+  },
+  {
+    "file": "house-garden.webp",
+    "input": "house-modern-garden.jpg",
+    "kind": "modern detached villa with glass facade, garden and water feature",
+    "photographer": "alleksana",
+    "source": "https://www.pexels.com/photo/modern-house-facade-10610731/",
+    "image_url": "https://images.pexels.com/photos/10610731/pexels-photo-10610731.jpeg?cs=srgb&dl=pexels-alleksana-10610731.jpg&fm=jpg",
+    "license": "Pexels License",
+    "license_url": "https://www.pexels.com/license/",
+    "local_path": "/workspace/scratch/property-assets/house-garden.webp",
+    "dimensions": [
+      1600,
+      1067
+    ],
+    "bytes": 252026,
+    "commercial_reuse": "Free for website use; attribution not required; standard platform restrictions apply.",
+    "demonstrative_only": true
+  },
+  {
+    "file": "commercial-campus.webp",
+    "input": "office-lawn.jpg",
+    "kind": "contemporary glass office campus with lawn",
+    "photographer": "Zifeng Xiong",
+    "source": "https://www.pexels.com/photo/modern-office-building-with-green-lawn-32575068/",
+    "image_url": "https://images.pexels.com/photos/32575068/pexels-photo-32575068.jpeg?cs=srgb&dl=pexels-snowfly09-32575068.jpg&fm=jpg",
+    "license": "Pexels License",
+    "license_url": "https://www.pexels.com/license/",
+    "local_path": "/workspace/scratch/property-assets/commercial-campus.webp",
+    "dimensions": [
+      1600,
+      1067
+    ],
+    "bytes": 241032,
+    "commercial_reuse": "Free for website use; attribution not required; standard platform restrictions apply.",
+    "demonstrative_only": true
+  },
+  {
+    "file": "commercial-building.webp",
+    "input": "office-red.jpg",
+    "kind": "contemporary complete commercial building, glass facade and red accents",
+    "photographer": "Mehmet Turgut Kirkgoz",
+    "source": "https://www.pexels.com/photo/facade-of-a-modern-building-and-a-parking-lot-17179226/",
+    "image_url": "https://images.pexels.com/photos/17179226/pexels-photo-17179226.jpeg?cs=srgb&dl=pexels-tkirkgoz-17179226.jpg&fm=jpg",
+    "license": "Pexels License",
+    "license_url": "https://www.pexels.com/license/",
+    "local_path": "/workspace/scratch/property-assets/commercial-building.webp",
+    "dimensions": [
+      1600,
+      1200
+    ],
+    "bytes": 173518,
+    "commercial_reuse": "Free for website use; attribution not required; standard platform restrictions apply.",
+    "demonstrative_only": true
+  },
+  {
+    "file": "industrial-docks.webp",
+    "input": "warehouse-row.jpg",
+    "kind": "industrial warehouse exterior with loading docks",
+    "photographer": "Matthew Jackson",
+    "source": "https://unsplash.com/photos/a-row-of-loading-docks-on-a-commercial-building-SJGC3NNOqU4",
+    "image_url": "https://images.unsplash.com/photo-1780367261654-45395777b560?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&dl=matthew-jackson-SJGC3NNOqU4-unsplash.jpg",
+    "license": "Unsplash License",
+    "license_url": "https://unsplash.com/license",
+    "local_path": "/workspace/scratch/property-assets/industrial-docks.webp",
+    "dimensions": [
+      1600,
+      1066
+    ],
+    "bytes": 83362,
+    "commercial_reuse": "Free for website use; attribution not required; standard platform restrictions apply.",
+    "demonstrative_only": true
+  },
+  {
+    "file": "industrial-interior.webp",
+    "input": "test-1.jpg",
+    "kind": "industrial warehouse interior with pallets and storage shelves",
+    "photographer": "Tiger Lily",
+    "source": "https://www.pexels.com/photo/photo-of-warehouse-4481326/",
+    "image_url": "https://images.pexels.com/photos/4481326/pexels-photo-4481326.jpeg?cs=srgb&dl=pexels-tiger-lily-4481326.jpg&fm=jpg",
+    "license": "Pexels License",
+    "license_url": "https://www.pexels.com/license/",
+    "local_path": "/workspace/scratch/property-assets/industrial-interior.webp",
+    "dimensions": [
+      1600,
+      1067
+    ],
+    "bytes": 185918,
+    "commercial_reuse": "Free for website use; attribution not required; standard platform restrictions apply.",
+    "demonstrative_only": true
+  }
+]
