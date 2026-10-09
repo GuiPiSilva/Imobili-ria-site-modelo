@@ -57,7 +57,7 @@ O site anterior permanece demonstrativo. A plataforma de gestão é acessada em 
 
 ### Autenticação Tera ID
 
-O login utiliza o provedor **TeraApps** hospedado em \`https://teraapps.netlify.app\`, com Firebase Authentication e e-mail confirmado; não utiliza o login legado da TeraCode. O fluxo é Authorization Code + PKCE S256: \`GET /api/auth/login\` redireciona para \`https://teraapps.netlify.app/sso\` e \`GET /api/auth/callback\` troca o código em \`POST https://teraapps.netlify.app/api/oauth/token\`. A resposta validada contém \`{token_type:"tera_identity",user:{sub,email,email_verified,name}}\`; não existe endpoint \`userinfo\` neste fluxo.
+O login utiliza o provedor **TeraApps** hospedado em \`https://teraaps.vercel.app\`, com Firebase Authentication e e-mail confirmado; não utiliza o login legado da TeraCode. O fluxo é Authorization Code + PKCE S256: \`GET /api/auth/login\` redireciona para \`https://teraaps.vercel.app/sso\` e \`GET /api/auth/callback\` troca o código em \`POST https://teraaps.vercel.app/api/oauth/token\`. A resposta validada contém \`{token_type:"tera_identity",user:{sub,email,email_verified,name}}\`; não existe endpoint \`userinfo\` neste fluxo.
 
 O aplicativo de identidade tem client ID fixo \`tera_imoveis_web\`. Este cliente foi implementado no repositório \`GuiPiSilva/TeraApps\`, com callbacks permitidos por correspondência exata: \`https://imobiliaria-site-modelo.vercel.app/api/auth/callback\` e \`http://localhost:3000/api/auth/callback\`. Para domínio customizado, autorize explicitamente o endereço exato na variável \`TERA_IMOVEIS_REDIRECT_URIS\` do servidor TeraApps. Não use callbacks de domínio diferente nem curingas.
 
@@ -72,8 +72,8 @@ A autenticação é diferente da autorização: **qualquer usuário que confirme
 ### Configurar no ambiente Vercel
 
 1. Crie um projeto Supabase *dedicado ao imobiliário*, execute o SQL de \`db/schema.sql\` e guarde \`SUPABASE_URL\` e a chave de serviço **somente no painel da Vercel**.
-2. Configure as variáveis descritas em \`.env.example\`: \`APP_URL=https://imobiliaria-site-modelo.vercel.app\`, \`TERAAPPS_AUTH_URL=https://teraapps.netlify.app\`, \`TERAAPPS_CLIENT_ID=tera_imoveis_web\`, \`SESSION_SECRET\`, \`SUPABASE_URL\`, \`SUPABASE_SERVICE_ROLE_KEY\` e \`TERA_MASTER_SUBS\`.
-3. Aguarde a versão da TeraApps com o cliente \`tera_imoveis_web\` ser publicada. Confirme \`GET https://teraapps.netlify.app/api/oauth/client?client_id=tera_imoveis_web&redirect_uri=https%3A%2F%2Fimobiliaria-site-modelo.vercel.app%2Fapi%2Fauth%2Fcallback\`.
+2. Configure as variáveis descritas em \`.env.example\`: \`APP_URL=https://imobiliaria-site-modelo.vercel.app\`, \`TERAAPPS_AUTH_URL=https://teraaps.vercel.app\`, \`TERAAPPS_CLIENT_ID=tera_imoveis_web\`, \`SESSION_SECRET\`, \`SUPABASE_URL\`, \`SUPABASE_SERVICE_ROLE_KEY\` e \`TERA_MASTER_SUBS\`.
+3. Aguarde a versão da TeraApps com o cliente \`tera_imoveis_web\` ser publicada. Confirme \`GET https://teraaps.vercel.app/api/oauth/client?client_id=tera_imoveis_web&redirect_uri=https%3A%2F%2Fimobiliaria-site-modelo.vercel.app%2Fapi%2Fauth%2Fcallback\`.
 4. No Firebase Console da TeraApps, em Authentication > Users, obtenha o **UID** do usuário que será Master e configure este UID em \`TERA_MASTER_SUBS\`. Não conceda Master apenas pelo e-mail.
 5. Teste \`/acesso\`, \`/master\`, vincule o UID de cada proprietário à sua imobiliária; o proprietário então entra por \`/painel\`.
 6. Cadastre imóveis, publique na vitrine e confira a entrada dos contatos no CRM.
