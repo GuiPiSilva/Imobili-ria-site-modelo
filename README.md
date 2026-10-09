@@ -51,27 +51,32 @@ Nome e catálogo são demonstrativos. Valores e localizações são ilustrativos
 A identidade visual e os fluxos foram preservados na adaptação do projeto para o Next.js padrão. A revisão visual pelo navegador foi bloqueada na sessão de criação. A ferramenta WebMCP é opcional e depende do suporte do navegador.
 
 
-## Plataforma de gestão multi-imobiliária (nova versão)
+## Plataforma de gestão multi-imobiliária (TeraApps Identity)
 
-A gestão é acessada por **/acesso** (login pela TeraCode/TeraApps Identity, Authorization Code + PKCE).
-O **/painel** é exclusivo dos proprietários, gestores e corretores vinculados a uma imobiliária. O **/master** é restrito aos IDs autenticados especificados em TERA_MASTER_SUBS. Cada empresa possui sua vitrine pública em **/vitrine/{slug}**.
+O site anterior permanece demonstrativo. A plataforma de gestão é acessada em \`/acesso\`, proprietários/gerentes/corretores em \`/painel\` e administradores centrais em \`/master\`. Cada imobiliária gerencia seus próprios dados e tem vitrine em \`/vitrine/{slug}\`.
 
-### Recursos implementados
-- Controle Master: cadastra empresas, indica proprietário via ID de identidade TeraCode, define plano, suspende e reativa.
-- Gestão imobiliária: cadastro e publicação de anúncios (imóveis próprios da empresa), CRM de leads, agendamento de visitas, equipe e financeiro simples.
-- Permissões e segregação: master global; owner administra a própria empresa; manager administra anúncios/CRM/visitas; agent trabalha em CRM/visitas; operações validadas no servidor por tenant_id.
-- Leads enviados pelas páginas públicas entram na base CRM da imobiliária indicada.
-- Cookies HttpOnly assinados com HMAC, OAuth2 PKCE e validação da identidade via /api/oauth/userinfo da TeraCode.
-- Banco Postgres com tabelas por tenant, validações, RLS ligado e sem acesso direto a anon/authenticated.
+### Autenticação Tera ID
 
-### Configuração para colocar em funcionamento
-1. Crie um **projeto Supabase dedicado** e execute o script de \`db/schema.sql\` no editor SQL desse projeto. Não utilize um banco de outro cliente.
-2. No deploy Vercel da imobiliária, configure \`APP_URL\`, \`TERACODE_AUTH_URL\`, \`TERACODE_CLIENT_ID=tera-imoveis\`, \`SESSION_SECRET\` (mínimo 32 caracteres aleatórios), \`SUPABASE_URL\`, \`SUPABASE_SERVICE_ROLE_KEY\` e \`TERA_MASTER_SUBS\`. Veja \`.env.example\`.
-3. No banco TeraCode Identity, registre o cliente OAuth \`tera-imoveis\` na tabela \`oauth_clients\`, com \`redirect_uris\` contendo a **URL exata** \`https://SEU-DOMINIO/api/auth/callback\` e \`active=true\`. Verifique a definição real da tabela antes do INSERT.
-4. Consulte o \`id\` na tabela \`identity_users\` da TeraCode (ou o campo \`sub\` retornado por userinfo de uma autenticação autorizada). Configure **somente** os IDs verificados de administradores centrais em \`TERA_MASTER_SUBS\` (lista separada por vírgulas).
-5. Faça login em \`/acesso\`, entre em \`/master\`, crie a imobiliária e vincule o \`sub\` da identidade TeraCode de seu proprietário. O dono utiliza o mesmo login e será encaminhado para \`/painel\`.
-6. Cadastre anúncios no painel e marque os aprovados como **Publicado**; eles aparecerão automaticamente em \`/vitrine/{slug}\`. Formulários da vitrine alimentam o CRM.
+O login utiliza o provedor **TeraApps** hospedado em \`https://teraapps.netlify.app\`, com Firebase Authentication e e-mail confirmado; não utiliza o login legado da TeraCode. O fluxo é Authorization Code + PKCE S256: \`GET /api/auth/login\` redireciona para \`https://teraapps.netlify.app/sso\` e \`GET /api/auth/callback\` troca o código em \`POST https://teraapps.netlify.app/api/oauth/token\`. A resposta validada contém \`{token_type:"tera_identity",user:{sub,email,email_verified,name}}\`; não existe endpoint \`userinfo\` neste fluxo.
 
-**Segurança operacional:** o segredo do Supabase e os IDs Master só podem existir no ambiente servidor, nunca com prefixo NEXT_PUBLIC_ nem em commits. Antes de divulgar comercialmente o CRM, implemente limitação de requisições e CAPTCHA no formulário público, registro de auditoria, backup e políticas de privacidade/LGPD.
+O aplicativo de identidade tem client ID fixo \`tera_imoveis_web\`. Este cliente foi implementado no repositório \`GuiPiSilva/TeraApps\`, com callbacks permitidos por correspondência exata: \`https://imobiliaria-site-modelo.vercel.app/api/auth/callback\` e \`http://localhost:3000/api/auth/callback\`. Para domínio customizado, autorize explicitamente o endereço exato na variável \`TERA_IMOVEIS_REDIRECT_URIS\` do servidor TeraApps. Não use callbacks de domínio diferente nem curingas.
 
-**Limites atuais:** o catálogo inicial da home segue **demonstrativo** e independente das vitrines multiempresa. O financeiro é controle interno de lançamentos — não processa pagamentos, boletos, repasses ou notas fiscais. Não há integração automática com portais, WhatsApp, gateways de assinatura ou cobrança de planos. O registro no provedor OAuth e a configuração do banco são etapas externas necessárias para liberar os novos painéis em produção.
+A autenticação é diferente da autorização: **qualquer usuário que confirme sua Tera ID poderá fazer login, mas somente quem tiver vínculo ativo no banco imobiliário acessará um painel**. O Master exige que o \`sub\` (Firebase Auth UID verificado, não e-mail) esteja listado em \`TERA_MASTER_SUBS\`.
+
+### Recursos iniciais
+- Painel Master com criação/suspensão de imobiliárias, planos e vínculos de proprietários.
+- Imóveis publicados nas vitrines individuais, CRM e leads do site, visitas agendadas, equipe e financeiro simples.
+- Permissões verificadas no servidor: Master, owner, manager e agent; consultas e gravações com \`tenant_id\`.
+- Banco de dados Postgres segregado por imobiliária, RLS habilitada e nenhuma policy pública.
+
+### Configurar no ambiente Vercel
+
+1. Crie um projeto Supabase *dedicado ao imobiliário*, execute o SQL de \`db/schema.sql\` e guarde \`SUPABASE_URL\` e a chave de serviço **somente no painel da Vercel**.
+2. Configure as variáveis descritas em \`.env.example\`: \`APP_URL=https://imobiliaria-site-modelo.vercel.app\`, \`TERAAPPS_AUTH_URL=https://teraapps.netlify.app\`, \`TERAAPPS_CLIENT_ID=tera_imoveis_web\`, \`SESSION_SECRET\`, \`SUPABASE_URL\`, \`SUPABASE_SERVICE_ROLE_KEY\` e \`TERA_MASTER_SUBS\`.
+3. Aguarde a versão da TeraApps com o cliente \`tera_imoveis_web\` ser publicada. Confirme \`GET https://teraapps.netlify.app/api/oauth/client?client_id=tera_imoveis_web&redirect_uri=https%3A%2F%2Fimobiliaria-site-modelo.vercel.app%2Fapi%2Fauth%2Fcallback\`.
+4. No Firebase Console da TeraApps, em Authentication > Users, obtenha o **UID** do usuário que será Master e configure este UID em \`TERA_MASTER_SUBS\`. Não conceda Master apenas pelo e-mail.
+5. Teste \`/acesso\`, \`/master\`, vincule o UID de cada proprietário à sua imobiliária; o proprietário então entra por \`/painel\`.
+6. Cadastre imóveis, publique na vitrine e confira a entrada dos contatos no CRM.
+
+**Antes do uso comercial:** configurar proteção anti-spam/rate limiting e consentimento LGPD; testar autorização cruzada entre tenants e revogação; adicionar monitoramento, auditoria e backups. O financeiro é um livro simples sem emissão de boletos, cobrança recorrente ou integração fiscal. O catálogo original do site não foi substituído pelos novos anúncios de empresas.
+

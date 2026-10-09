@@ -7,11 +7,11 @@ export async function GET() {
     const state = oauthNonce();
     const verifier = oauthNonce();
     const origin = appOrigin();
-    const idp = new URL(process.env.TERACODE_AUTH_URL || '');
+    const idp = new URL(process.env.TERAAPPS_AUTH_URL || '');
     if (idp.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(idp.hostname)) throw Error('Provedor inválido');
-    const clientId = process.env.TERACODE_CLIENT_ID || 'tera-imoveis';
+    const clientId = process.env.TERAAPPS_CLIENT_ID || 'tera_imoveis_web';
     const redirectUri = origin + '/api/auth/callback';
-    const target = new URL('/login/', idp.origin);
+    const target = new URL('/sso', idp.origin);
     target.searchParams.set('client_id', clientId);
     target.searchParams.set('redirect_uri', redirectUri);
     target.searchParams.set('state', state);
@@ -22,6 +22,6 @@ export async function GET() {
     response.headers.set('Cache-Control', 'no-store');
     return response;
   } catch {
-    return NextResponse.json({ error: 'SSO não configurado. Defina TERACODE_AUTH_URL, APP_URL e SESSION_SECRET.' }, { status: 503 });
+    return NextResponse.json({ error: 'SSO não configurado. Defina TERAAPPS_AUTH_URL, APP_URL e SESSION_SECRET.' }, { status: 503 });
   }
 }
